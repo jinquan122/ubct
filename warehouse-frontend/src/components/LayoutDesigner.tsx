@@ -1,11 +1,12 @@
 import React, { useState, useCallback } from 'react';
 import Sidebar from './Sidebar';
-import WarehouseCanvas from './WarehouseCanvas';
+import Warehouse3D from './Warehouse3D';
 import RackConfiguration from './RackConfiguration';
 import SimulationConfig from './SimulationConfig';
 import type { WarehouseElement, RackConfig, WarehouseData } from '../types/warehouse';
 import { SLOT_DIMENSIONS } from '../types/warehouse';
 import './LayoutDesigner.css';
+import './Warehouse3D.css';
 
 const LayoutDesigner: React.FC = () => {
   const [selectedTool, setSelectedTool] = useState<string>('select');
@@ -48,11 +49,11 @@ const LayoutDesigner: React.FC = () => {
     return slots;
   }, []);
 
-  const handleRackAdd = useCallback(() => {
+  const handleRackAdd = useCallback((position?: { x: number; y: number; z: number }) => {
     const newRack: WarehouseElement = {
       id: generateRackId(),
       type: 'rack',
-      position: { x: 2, y: 2, z: 0 },
+      position: position || { x: 2, y: 2, z: 0 },
       rotation: { x: 0, y: 0, z: 0 },
       structure: {
         width: defaultRackConfig.width,
@@ -164,13 +165,21 @@ const LayoutDesigner: React.FC = () => {
         />
         
         <div className="canvas-container">
-          <WarehouseCanvas
-            selectedTool={selectedTool}
-            elements={racks}
-            onElementAdd={handleRackAdd}
-            onElementSelect={setSelectedRack}
-            onElementUpdate={handleRackUpdate}
-            onElementDelete={handleRackDelete}
+          <div className="canvas-header">
+            <h2>3D Warehouse Layout Designer</h2>
+            <div className="canvas-info">
+              <span>15m × 10m warehouse | 3D rack visualization</span>
+              <span className={`tool-indicator ${selectedTool}`}>
+                Tool: {selectedTool.charAt(0).toUpperCase() + selectedTool.slice(1)}
+              </span>
+            </div>
+          </div>
+          
+          <Warehouse3D
+            racks={racks}
+            selectedRack={selectedRack}
+            onRackSelect={setSelectedRack}
+            onRackAdd={selectedTool === 'add-rack' ? handleRackAdd : undefined}
           />
         </div>
 

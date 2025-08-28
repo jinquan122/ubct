@@ -52,6 +52,10 @@ const RackConfiguration: React.FC<RackConfigurationProps> = ({
     });
   };
 
+  const handleExpand = (direction: 'width' | 'depth' | 'height', amount: number) => {
+    onExpand(direction, amount);
+  };
+
   const totalSlots = config.width * config.depth * config.height;
   const physicalWidth = config.width * SLOT_DIMENSIONS.width;
   const physicalDepth = config.depth * SLOT_DIMENSIONS.depth;
@@ -103,7 +107,7 @@ const RackConfiguration: React.FC<RackConfigurationProps> = ({
                   <div className="control-group">
                     <button 
                       className="expand-btn" 
-                      onClick={() => onExpand('width', -1)}
+                      onClick={() => handleExpand('width', -1)}
                       disabled={config.width <= 1}
                     >
                       <Minus size={16} />
@@ -111,7 +115,7 @@ const RackConfiguration: React.FC<RackConfigurationProps> = ({
                     <span className="dimension-value">{config.width}</span>
                     <button 
                       className="expand-btn" 
-                      onClick={() => onExpand('width', 1)}
+                      onClick={() => handleExpand('width', 1)}
                     >
                       <Plus size={16} />
                     </button>
@@ -124,7 +128,7 @@ const RackConfiguration: React.FC<RackConfigurationProps> = ({
                   <div className="control-group">
                     <button 
                       className="expand-btn" 
-                      onClick={() => onExpand('depth', -1)}
+                      onClick={() => handleExpand('depth', -1)}
                       disabled={config.depth <= 1}
                     >
                       <Minus size={16} />
@@ -132,7 +136,7 @@ const RackConfiguration: React.FC<RackConfigurationProps> = ({
                     <span className="dimension-value">{config.depth}</span>
                     <button 
                       className="expand-btn" 
-                      onClick={() => onExpand('depth', 1)}
+                      onClick={() => handleExpand('depth', 1)}
                     >
                       <Plus size={16} />
                     </button>
@@ -145,7 +149,7 @@ const RackConfiguration: React.FC<RackConfigurationProps> = ({
                   <div className="control-group">
                     <button 
                       className="expand-btn" 
-                      onClick={() => onExpand('height', -1)}
+                      onClick={() => handleExpand('height', -1)}
                       disabled={config.height <= 1}
                     >
                       <Minus size={16} />
@@ -153,7 +157,7 @@ const RackConfiguration: React.FC<RackConfigurationProps> = ({
                     <span className="dimension-value">{config.height}</span>
                     <button 
                       className="expand-btn" 
-                      onClick={() => onExpand('height', 1)}
+                      onClick={() => handleExpand('height', 1)}
                       disabled={config.height >= 8}
                     >
                       <Plus size={16} />
